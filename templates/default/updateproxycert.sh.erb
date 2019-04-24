@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# go direct here, since we need to get the stuff direct from s3, not through a proxy
+unset http_proxy
+unset https_proxy
+unset no_proxy
+unset HTTP_PROXY
+unset HTTPS_PROXY
+unset NO_PROXY
+
+aws s3 cp s3://<%= @certbucket %>/<%= @env %>/ /usr/local/share/ca-certificates/ --recursive --exclude '*' --include "outboundprox*"
+/usr/sbin/update-ca-certificates
+
